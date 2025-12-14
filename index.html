@@ -3,77 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Cinta di Hari Spesial</title>
+    <title>Jatuh Suka (Lirik)</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container" id="container">
+    <div class="container">
+        <pre id="lyric-output" class="lyric-text"></pre>
 
-        <div class="step active" id="step1">
-            <h1 class="greeting-text">Haloo, apakah kamu Indah Try Cahyani?</h1>
-            <div class="button-group">
-                <button onclick="nextStep(2)" class="btn primary-btn">Iya</button>
-                <button onclick="rejectAccess()" class="btn secondary-btn">Bukan</button>
-            </div>
-        </div>
-
-        <div class="step" id="step2">
-            <h2 class="question-title">Apakah kamu sedang ulang tahun hari ini? 🎂</h2>
-            <div class="form-group">
-                <label for="isBirthday">Jawaban: </label>
-                <select id="isBirthday" onchange="toggleAgeInput()">
-                    <option value="">-- Pilih --</option>
-                    <option value="yes">Iya</option>
-                    <option value="no">Tidak</option>
-                </select>
-            </div>
-            <div class="form-group" id="ageInputGroup" style="display: none;">
-                <label for="ageInput">Umur berapa kamu sekarang?</label>
-                <input type="number" id="ageInput" placeholder="Masukkan angka umur">
-            </div>
-            <button onclick="checkBirthdayAndNext()" class="btn primary-btn" id="next2" disabled>Lanjut</button>
-        </div>
-
-        <div class="step" id="step3">
-            <h2 class="question-title">Siapa pembuat website ini di mata mu? ✨</h2>
-            <div class="form-group">
-                <label for="creatorName">Nama Pembuat:</label>
-                <input type="text" id="creatorName" placeholder="Nama orangnya">
-            </div>
-            <div class="form-group">
-                <label for="description">Seperti apa dia dimata mu?</label>
-                <textarea id="description" rows="3" placeholder="Ungkapkan perasaan mu..."></textarea>
-            </div>
-            <button onclick="nextStep(4)" class="btn primary-btn" id="next3" disabled>Lanjut</button>
-        </div>
-
-        <div class="step" id="step4">
-            <h1 class="special-message">I have a something for you! 🎁</h1>
-            <p class="sub-text">Kamu udah ga sabar ya? Cepat klik di bawah ini!</p>
-            <button onclick="nextStep(5)" class="btn primary-btn big-btn pulse-anim">KLIK DISINI</button>
-        </div>
-
-        <div class="step final-step" id="step5">
-            <div class="flower-container">
-                <div class="flower-base"></div>
-                <div class="flower-stem"></div>
-                <div class="flower-head"></div>
-            </div>
-
-            <div class="birthday-text-container" style="opacity: 0;">
-                <h1 class="birthday-title">
-                    <span class="heart-emoji">❤️</span> Happy Birthday Indah Try Cahyani <span class="heart-emoji">❤️</span>
-                </h1>
-                <p class="romantic-message">
-                    I hope this gift can be something you can't forget every time you have a birthday, always remember me, okay! Terus melangkah yaa, aku salah satu orang yang ikut bangga atas perjuangan kamu selama ini. Soo proud of u sayang, sehat selalu dan semoga panjang umurr, serta bahagia selalu yaaaa! ❤
-                </p>
-                <p class="signature">- Someone who loves you very much</p>
-            </div>
-        </div>
-
+        <p class="special-message">Untuk seseorang yang memiliki senyuman indah</p>
     </div>
+
+    <audio id="background-music" loop>
+        </audio>
 
     <script src="script.js"></script>
 </body>
