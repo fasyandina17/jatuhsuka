@@ -1,97 +1,79 @@
-// Fungsi untuk memajukan langkah (step)
-function nextStep(stepNumber) {
-    // Sembunyikan semua step
-    document.querySelectorAll('.step').forEach(step => {
-        step.classList.remove('active');
-    });
-
-    // Tampilkan step yang diminta
-    const currentStep = document.getElementById('step' + stepNumber);
-    if (currentStep) {
-        currentStep.classList.add('active');
-    }
-
-    // Aksi Khusus untuk Step 5 (Animasi Final)
-    if (stepNumber === 5) {
-        // Biarkan CSS menjalankan animasi bunga
-        // Setelah animasi bunga selesai, tampilkan teks ucapan.
-        setTimeout(() => {
-            document.querySelector('.birthday-text-container').classList.add('show');
-        }, 300); // Penundaan kecil sebelum class 'show' ditambahkan
-    }
-}
-
-// Fungsi untuk menolak akses di Step 1
-function rejectAccess() {
-    alert("Maaf, website ini dibuat khusus untuk Indah Try Cahyani. Anda tidak bisa melanjutkan.");
-    // Opsional: bisa diarahkan ke halaman lain atau refresh
-    // window.location.reload();
-}
-
-// --- Logika Step 2 ---
-
-// Mengaktifkan/menonaktifkan input umur
-function toggleAgeInput() {
-    const isBirthday = document.getElementById('isBirthday').value;
-    const ageInputGroup = document.getElementById('ageInputGroup');
-    const nextButton = document.getElementById('next2');
-
-    if (isBirthday === 'yes') {
-        ageInputGroup.style.display = 'block';
-        nextButton.disabled = !document.getElementById('ageInput').value; // Aktifkan/nonaktifkan tombol berdasarkan input umur
-    } else if (isBirthday === 'no') {
-        ageInputGroup.style.display = 'none';
-        nextButton.disabled = false; // Jika tidak ultah, tetap bisa lanjut
-    } else {
-        ageInputGroup.style.display = 'none';
-        nextButton.disabled = true;
-    }
-}
-
-// Memeriksa dan melanjutkan dari Step 2
-function checkBirthdayAndNext() {
-    const isBirthday = document.getElementById('isBirthday').value;
-    let message = "";
-
-    if (isBirthday === 'yes') {
-        const age = document.getElementById('ageInput').value;
-        if (!age || isNaN(age) || parseInt(age) <= 0) {
-            alert("Tolong masukkan umur yang valid.");
-            return;
-        }
-        message = `Wah, Indah sedang ulang tahun ke-${age}! Selamat! 🎉`;
-    } else if (isBirthday === 'no') {
-        message = "Oh, Indah belum ulang tahun hari ini. Semoga di hari-hari biasa ini tetap bahagia! 😊";
-    } else {
-         alert("Tolong pilih jawaban terlebih dahulu.");
-         return;
-    }
-
-    // Tampilkan pesan konfirmasi sebelum lanjut ke step 3
-    if (confirm(message + "\n\nLanjut ke pertanyaan berikutnya?")) {
-        nextStep(3);
-    }
-}
-
-// --- Logika Step 3 ---
-
-// Validasi input di Step 3 secara real-time
 document.addEventListener('DOMContentLoaded', () => {
-    const creatorNameInput = document.getElementById('creatorName');
-    const descriptionTextarea = document.getElementById('description');
-    const nextButton = document.getElementById('next3');
+    const lyricOutput = document.getElementById('lyric-output');
+    const backgroundMusic = document.getElementById('background-music');
 
-    // Listener untuk input umur di Step 2
-    const ageInput = document.getElementById('ageInput');
-    ageInput.addEventListener('input', toggleAgeInput);
+    // **Lirik Lagu "Jatuh Suka - Tulus"**
+    // Lirik disimpan dalam array, di mana setiap elemen adalah baris lirik.
+    // Lirik DIBUAT PERSIS seperti di video (dengan sedikit penyesuaian untuk ketikan).
+    const lyrics = [
+        "== Jatuh Suka - Tulus ==",
+        "Beginikah surga",
+        "Bayangkan",
+        "Bila",
+        "Kau ajakku bicara",
+        "Ini semua bukan salahmu",
+        "Punya magis perekat yang sekuat itu",
+        "Dari lahir sudah begitu",
+        "Maafkan...",
+        "Aku jatuh suka"
+    ];
 
-    // Listener untuk Step 3
-    const checkStep3Inputs = () => {
-        const nameValid = creatorNameInput.value.trim().length > 2;
-        const descValid = descriptionTextarea.value.trim().length > 10;
-        nextButton.disabled = !(nameValid && descValid);
-    };
+    // Array of time delays (in seconds) for each line, as seen in the video.
+    // Disesuaikan agar sesuai dengan timing di video.
+    // Note: Delay pertama (0.4s) adalah sebelum lirik pertama muncul.
+    const delays = [0.4, 1.6, 2.5, 3.1, 8.4, 5.2, 3.2, 5.0, 7.5];
 
-    creatorNameInput.addEventListener('input', checkStep3Inputs);
-    descriptionTextarea.addEventListener('input', checkStep3Inputs);
+    let lyricIndex = 0;
+
+    // Fungsi untuk mensimulasikan efek ketikan per karakter
+    function typeWriter(text, lineIndex, delay) {
+        let charIndex = 0;
+        lyricOutput.innerHTML += "\n"; // Tambah baris baru untuk lirik
+        
+        // Tambahkan kursor berkedip saat sedang mengetik
+        lyricOutput.classList.add('typing-cursor');
+
+        const interval = setInterval(() => {
+            if (charIndex < text.length) {
+                // Tambahkan karakter berikutnya
+                lyricOutput.innerHTML = lyricOutput.innerHTML.slice(0, -1) + text.charAt(charIndex);
+                charIndex++;
+            } else {
+                clearInterval(interval);
+                // Hapus kursor setelah selesai mengetik baris
+                lyricOutput.classList.remove('typing-cursor'); 
+                
+                // Panggil fungsi untuk baris berikutnya setelah jeda waktu yang sesuai (delay)
+                setTimeout(startTyping, delay * 1000); 
+            }
+        }, 80); // Kecepatan ketikan per karakter (80ms)
+    }
+
+    // Fungsi untuk memulai animasi ketikan
+    function startTyping() {
+        if (lyricIndex < lyrics.length) {
+            const currentLyric = lyrics[lyricIndex];
+            const currentDelay = delays[lyricIndex] || 3.0; // Gunakan 3.0s jika delay tidak ada
+            
+            // Perbarui kursor
+            lyricOutput.classList.add('typing-cursor');
+            
+            // Mulai ketikan
+            typeWriter(currentLyric, lyricIndex, currentDelay);
+            lyricIndex++;
+        } else {
+            // Animasi selesai, hilangkan kursor final
+            lyricOutput.classList.remove('typing-cursor');
+        }
+    }
+
+    // Awalnya, beri sedikit jeda sebelum memulai
+    setTimeout(() => {
+        // Coba mainkan musik otomatis (perlu interaksi pengguna di beberapa browser)
+        // backgroundMusic.play().catch(error => {
+        //     console.log("Auto-play blocked. User interaction needed to play music.");
+        //     // Anda bisa menambahkan tombol "Mulai" untuk memicu musik dan animasi
+        // });
+        startTyping();
+    }, 500); // Jeda 0.5 detik sebelum lirik pertama
 });
